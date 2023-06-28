@@ -27,3 +27,8 @@ func PledgePromises(promises string) error {
 func PledgeExecpromises(execpromises string) error {
 	return pledgeExecpromises(execpromises)
 }
+
+// Noop ...
+func Noop() bool {
+	return noop
+}

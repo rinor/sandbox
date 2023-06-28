@@ -9,8 +9,10 @@ import (
 
 const (
 	// OpenBSD syscalls, mapped to unused syscall numbers in Linux
-	NANOS_SYS_pledge = 335
-	NANOS_SYS_unveil = 336
+	nanos_sys_pledge = 335
+	nanos_sys_unveil = 336
+
+	noop = false
 )
 
 func pledge(promises, execpromises string) error {
@@ -24,7 +26,7 @@ func pledgePromises(promises string) error {
 	if err != nil {
 		return err
 	}
-	_, _, e := syscall.Syscall(NANOS_SYS_pledge, uintptr(unsafe.Pointer(pptr)), uintptr(exptr), 0)
+	_, _, e := syscall.Syscall(nanos_sys_pledge, uintptr(unsafe.Pointer(pptr)), uintptr(exptr), 0)
 	if e != 0 {
 		return e
 	}
@@ -44,7 +46,7 @@ func unveil(path string, flags string) error {
 	if err != nil {
 		return err
 	}
-	_, _, e := syscall.Syscall(NANOS_SYS_unveil, uintptr(unsafe.Pointer(pathPtr)), uintptr(unsafe.Pointer(flagsPtr)), 0)
+	_, _, e := syscall.Syscall(nanos_sys_unveil, uintptr(unsafe.Pointer(pathPtr)), uintptr(unsafe.Pointer(flagsPtr)), 0)
 	if e != 0 {
 		return e
 	}
@@ -54,7 +56,7 @@ func unveil(path string, flags string) error {
 func unveilBlock() error {
 	// Both pointers must be nil.
 	var pathUnsafe, flagsUnsafe unsafe.Pointer
-	_, _, e := syscall.Syscall(NANOS_SYS_unveil, uintptr(pathUnsafe), uintptr(flagsUnsafe), 0)
+	_, _, e := syscall.Syscall(nanos_sys_unveil, uintptr(pathUnsafe), uintptr(flagsUnsafe), 0)
 	if e != 0 {
 		return e
 	}

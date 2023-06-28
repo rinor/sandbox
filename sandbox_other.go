@@ -2,6 +2,10 @@
 
 package sandbox
 
+const (
+	noop = true
+)
+
 func unveil(path string, flags string) error {
 	return nil
 }

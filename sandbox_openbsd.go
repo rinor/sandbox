@@ -6,6 +6,10 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+const (
+	noop = false
+)
+
 func unveil(path string, flags string) error {
 	return unix.Unveil(path, flags)
 }
