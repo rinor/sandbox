@@ -2,6 +2,11 @@
 
 package sandbox
 
+import (
+	"syscall"
+	"unsafe"
+)
+
 const (
 	// OpenBSD syscalls, mapped to unused syscall numbers in Linux
 	NANOS_SYS_pledge = 335
