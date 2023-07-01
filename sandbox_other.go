@@ -1,4 +1,4 @@
-//go:build !(openbsd || nanos)
+//go:build !(openbsd || linux)
 
 package sandbox
 

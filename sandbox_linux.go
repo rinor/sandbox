@@ -1,4 +1,4 @@
-//go:build nanos && !openbsd
+//go:build linux
 
 package sandbox
 
@@ -11,9 +11,31 @@ const (
 	// OpenBSD syscalls, mapped to unused syscall numbers in Linux
 	nanos_sys_pledge = 335
 	nanos_sys_unveil = 336
-
-	noop = false
+	nanos_sysname    = "Nanos"
 )
+
+var noop bool = true
+
+func init() {
+	var uts syscall.Utsname
+	if err := syscall.Uname(&uts); err != nil {
+		return
+	}
+
+	int8ToString := func(s []int8) string {
+		b := make([]byte, 0, len(s))
+		for _, v := range s {
+			if v == 0x00 {
+				break
+			}
+			b = append(b, byte(v))
+		}
+		return string(b)
+	}
+
+	noop = int8ToString(uts.Sysname[:]) != nanos_sysname
+
+}
 
 func pledge(promises, execpromises string) error {
 	return pledgePromises(promises)

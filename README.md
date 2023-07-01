@@ -79,7 +79,7 @@ func main() {
 	}
 
 	log.Print("UNVEIL: Readir should work - (unveil r - enabled)")
-	_, err = os.ReadDir("/tmp")
+	_, err = os.ReadDir("/")
 	if err != nil {
 		log.Fatalf("%q", err)
 	}
