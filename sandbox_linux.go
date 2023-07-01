@@ -11,7 +11,9 @@ const (
 	// OpenBSD syscalls, mapped to unused syscall numbers in Linux
 	nanos_sys_pledge = 335
 	nanos_sys_unveil = 336
-	nanos_sysname    = "Nanos"
+
+	// uname -s
+	nanos_sysname = "Nanos"
 )
 
 var noop bool = true
@@ -34,7 +36,6 @@ func init() {
 	}
 
 	noop = int8ToString(uts.Sysname[:]) != nanos_sysname
-
 }
 
 func pledge(promises, execpromises string) error {
@@ -42,6 +43,9 @@ func pledge(promises, execpromises string) error {
 }
 
 func pledgePromises(promises string) error {
+	if noop {
+		return nil
+	}
 	// This variable holds the execpromises and is always nil.
 	var exptr unsafe.Pointer
 	pptr, err := syscall.BytePtrFromString(promises)
@@ -60,6 +64,9 @@ func pledgeExecpromises(execpromises string) error {
 }
 
 func unveil(path string, flags string) error {
+	if noop {
+		return nil
+	}
 	pathPtr, err := syscall.BytePtrFromString(path)
 	if err != nil {
 		return err
@@ -76,6 +83,9 @@ func unveil(path string, flags string) error {
 }
 
 func unveilBlock() error {
+	if noop {
+		return nil
+	}
 	// Both pointers must be nil.
 	var pathUnsafe, flagsUnsafe unsafe.Pointer
 	_, _, e := syscall.Syscall(nanos_sys_unveil, uintptr(pathUnsafe), uintptr(flagsUnsafe), 0)
