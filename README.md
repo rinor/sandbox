@@ -6,8 +6,23 @@ Can be used with [Nanos](https://github.com/nanovms/nanos) `sandbox` _klib_ - ht
 
 Can be safely used on other non-OpenBSD operating systems, where the syscalls are `noop`.
 
+## Nanos ops config
 
-## pledge
+```json
+{
+  "Klibs": [
+    "sandbox"
+  ],
+  "ManifestPassthrough": {
+    "sandbox": {
+      "pledge": {},
+      "unveil": {}
+    }
+  }
+}
+```
+
+### pledge
 
 ```go
 package main
@@ -53,7 +68,7 @@ func main() {
 }
 ```
 
-## unveil
+### unveil
 
 ```go
 package main

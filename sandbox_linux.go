@@ -16,7 +16,9 @@ const (
 	nanos_sysname = "Nanos"
 )
 
-var noop bool = true
+var (
+	noop = true
+)
 
 func init() {
 	var uts syscall.Utsname
